@@ -11,8 +11,8 @@ const baseUrl =
     ? "https://api-m.paypal.com"
     : "https://api-m.sandbox.paypal.com";
 
-const PAYPAL_RETURN_PATH = "/checkout/paypal/return";
-const PAYPAL_CANCEL_PATH = "/checkout/paypal/cancel";
+const PAYPAL_RETURN_PATH = "/op-market-shop/checkout/paypal/return";
+const PAYPAL_CANCEL_PATH = "/op-market-shop/checkout/paypal/cancel";
 
 const assertPayPalConfig = () => {
   if (!PAYPAL_CLIENT_ID || !PAYPAL_CLIENT_SECRET) {

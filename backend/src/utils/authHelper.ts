@@ -1,7 +1,6 @@
 import { Request } from "express";
 import { prismaClient } from "../db/prisma.js";
 import crypto from "crypto";
-import { ALLOWED_ORIGIN } from "../config/secrets.js";
 import sendEmail from "../services/emailService.js";
 import {
   compareTokenHash,
@@ -10,6 +9,7 @@ import {
   signRefreshToken,
   REFRESH_TOKEN_MAX_AGE_MS,
 } from "../utils/tokenHelper.js";
+import { ALLOWED_ORIGIN } from "../config/secrets.js";
 
 const EMAIL_VERIFICATION_TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const PASSWORD_RESET_TOKEN_MAX_AGE_MS = 60 * 60 * 1000;
@@ -230,7 +230,7 @@ export const sendVerificationEmail = async (
   user: { name: string; email: string },
   rawToken: string,
 ) => {
-  const verificationUrl = `http://localhost:3000/verify-email?token=${encodeURIComponent(rawToken)}`;
+  const verificationUrl = `${ALLOWED_ORIGIN}/op-market-shop/verify-email?token=${encodeURIComponent(rawToken)}`;
 
   return sendEmail({
     to: user.email,
@@ -251,11 +251,7 @@ export const sendPasswordResetEmail = async (
   user: { name: string; email: string },
   rawToken: string,
 ) => {
-  const frontendBase = (ALLOWED_ORIGIN || "http://localhost:3000").replace(
-    /\/$/,
-    "",
-  );
-  const resetUrl = `${frontendBase}/reset-password?token=${encodeURIComponent(rawToken)}`;
+  const resetUrl = `${ALLOWED_ORIGIN}/op-market-shop/reset-password?token=${encodeURIComponent(rawToken)}`;
 
   return sendEmail({
     to: user.email,
